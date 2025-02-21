@@ -115,6 +115,29 @@ Note:
 
 ## Demo time
 
+Note:
+- Let's open dev tools
+- And bring up both the Network tab and the redux dev toolbar
+- We can examine the state
+- UI interactions mutate this state
+- RTK query is used for interactions with the BE if you've used Tanstack Query (nee React query) it similar, except integrated with Redux
+- You can see here the layout model
+- We make use of redux-undo with some custom code to keep a redo/undo stack
+- The preview is rendered by Drupal via an API request
+- We do have _some_ scope for doing this in realtime for simple props on the roadmap
+- But for some things like images, that will still require the roundtrip to resolve media references
+- As you can see, media library still works
+- We're seeing a mix of Drupal's old AJAX and some React here
+- We'll talk a bit later about Hyperscriptify and how this works
+- Let's update a component and see the state changes etc
+- We have a formstate, that gets committed
+- We make a round trip to Drupal with the new values
+- It sends back a new preview and an updated model (e.g. resolves media references)
+- All of these changes are in tempstore at the moment
+- We've got polling of the autosave state
+- We can also see collaborative editing in early stages
+- We can also edit global components (blocks)
+
 ---
 
 ## What's under the hood?
