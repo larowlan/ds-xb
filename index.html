@@ -23,6 +23,7 @@
       --pnx-background-color: transparent;
       --pnx-light-blue: #c8f1ff;
       --pnx-light-blue-opaque: #c8f1ffcc;
+      --pnx-light-blue-part-opaque: #c8f1ffdd;
       --pnx-link: #0270b9;
       --pnx-link-hover: #161b59;
     }
@@ -120,6 +121,10 @@
 
     section[data-background] {
       background: var(--pnx-light-blue-opaque);
+    }
+
+    section[data-background-partial] {
+      background: var(--pnx-light-blue-part-opaque);
     }
 
     ul.tight li {

@@ -162,7 +162,16 @@ Note:
 
 ---
 
-## No 😌
+## No 😌 <span class="fragment fade-in">but</div>
+
+<div class="fragment fade-in">I believe we're on the cusp of Drupal's <em>Inverse Mullet*</em> phase</div>
+<div class="fragment small">* Inverse mullet - business out back, party up top</div>
+
+Note:
+- Drupal 8+ is now a decade old
+- The backend (while there is still some legacy cruft) is very stable
+- Many of us have real world experience with building decoupled things
+- Learning these things won't hurt your career prospects
 
 ---
 
@@ -178,7 +187,7 @@ Note:
 ## Prop shape matching
 
 <pre>
-  <code class="language-yaml">name: Heading
+  <code class="language-yaml" data-line-numbers="1-29|11-12|16-17|24,26|20-22">name: Heading
 status: stable
 group: Atom/Text
 description: A heading element
@@ -220,7 +229,7 @@ props:
 
 ## How does this work?
 
-<pre class="fragment"><code class="language-yaml">uuid: b333695b-d2ac-4484-8e2a-cf7940edad19
+<pre class="fragment"><code class="language-yaml" data-line-numbers="1-66|14-15|44-45|59-60|46-53|40|55|63">uuid: b333695b-d2ac-4484-8e2a-cf7940edad19
 langcode: en
 status: true
 dependencies:
@@ -308,7 +317,7 @@ Note:
 
 ---
 
-## Hyperscriptfy™️
+## Hyperscriptify™️
 
 <img src="./images/hyperscriptify.png" alt="frame" class="img--offscreen fragment fade-in-then-out"/>
 
@@ -449,9 +458,10 @@ interface ComponentSourceInterface {
 
 ---
 
-### Join us?
+<!-- .slide: data-background-image="images/wordcloud.png" data-background-partial data-background-position="center" -->
+## Join us?
 
-- 🗨️ Join #experience-builder on drupal.slack.org
+🗨️#experience-builder on drupal.slack.org
 
 Note:
 - As you've seen, there is a real mix of tech here
@@ -462,5 +472,4 @@ Note:
 ### Questions❓
 
 - 🗨️ larowlan #australia-nz / drupal.slack.org
-- Get a time machine and attend yesterday's contribution day
 - Chat with me in the hall
