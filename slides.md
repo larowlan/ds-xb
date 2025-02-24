@@ -304,6 +304,8 @@ Note:
 - Future work will add layout (slots/props) and paragraphs (props, maybe slots)
 - Shape matching inspects the props
 - If we can represent the SDC with existing data-types and widgets in core, a component is auto created
+- You can think of a component config entity as being a bit like 'Manage form display' for your 
+- Single directory components, except its automatically created for you if your component is compatible"
 - If not, there's a report telling you why your SDC component isn't compatible
 - The component looks like this
 
@@ -389,6 +391,7 @@ Note:
 - But div and fieldset are not
 - For anything we match, create react elements and JSON.parse the `attributes` attribute as props
 - Regular children (standard HTML) are in the HTML fragment
+- Hyperscriptify gives us an extension of HTML that allows Drupal to send a tree containing a mix of regular HTML and react elements
 
 ---
 
