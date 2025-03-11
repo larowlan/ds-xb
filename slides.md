@@ -116,27 +116,136 @@ Note:
 ## Demo time
 
 Note:
-- Let's open dev tools
-- And bring up both the Network tab and the redux dev toolbar
-- We can examine the state
-- UI interactions mutate this state
-- RTK query is used for interactions with the BE if you've used Tanstack Query (nee React query) it similar, except integrated with Redux
-- You can see here the layout model
-- We make use of redux-undo with some custom code to keep a redo/undo stack
-- The preview is rendered by Drupal via an API request
-- We do have _some_ scope for doing this in realtime for simple props on the roadmap
-- But for some things like images, that will still require the roundtrip to resolve media references
-- As you can see, media library still works
-- We're seeing a mix of Drupal's old AJAX and some React here
-- We'll talk a bit later about Hyperscriptify and how this works
-- Let's update a component and see the state changes etc
-- We have a formstate, that gets committed
-- We make a round trip to Drupal with the new values
-- It sends back a new preview and an updated model (e.g. resolves media references)
-- All of these changes are in tempstore at the moment
-- We've got polling of the autosave state
-- We can also see collaborative editing in early stages
-- We can also edit global components (blocks)
+- Note the module is alpha stability
+- Layers, library
+- Preview pane
+- Full page preview
+- Page data (node) edit form
+- Component inputs form
+- Sections
+- Blocks
+- Code editor
+- Review and publish changes
+- Global regions
+
+---
+
+## How is this built
+
+* Decoupled with custom API via controllers
+* Model and structure (layout) stored separately (i18n)
+
+<pre class="fragment"><code class="language-json" data-line-numbers="2|3-7|8-18|19-42|50|83-89">{
+  "layout": [
+    {
+      "nodeType": "region",
+      "id": "content",
+      "name": "Content",
+      "components": [
+        {
+          "nodeType": "component",
+          "uuid": "fead8ec9-8615-4c81-be81-7dd39df08319",
+          "type": "sdc.experience_builder.my-hero",
+          "slots": []
+        },
+        {
+          "nodeType": "component",
+          "uuid": "961bc669-4bbb-451e-840f-3693183e9195",
+          "type": "sdc.experience_builder.two_column",
+          "slots": [
+            {
+              "nodeType": "slot",
+              "id": "961bc669-4bbb-451e-840f-3693183e9195\/column_one",
+              "name": "column_one",
+              "components": [
+                {
+                  "nodeType": "component",
+                  "uuid": "f6fb167e-61df-405d-87db-d03550c66b49",
+                  "type": "sdc.experience_builder.image",
+                  "slots": []
+                }
+              ]
+            },
+            {
+              "nodeType": "slot",
+              "id": "961bc669-4bbb-451e-840f-3693183e9195\/column_two",
+              "name": "column_two",
+              "components": [
+                {
+                  "nodeType": "component",
+                  "uuid": "0539890d-f5d6-4273-8a06-4151a4f925c8",
+                  "type": "js.love_count",
+                  "slots": []
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ],
+  "model": {
+    "fead8ec9-8615-4c81-be81-7dd39df08319": {
+      "source": {
+        "cta1": {
+          "sourceType": "static:field_item:string",
+          "expression": "\u2139\ufe0estring\u241fvalue"
+        },
+        "cta2": {
+          "sourceType": "static:field_item:string",
+          "expression": "\u2139\ufe0estring\u241fvalue"
+        },
+        "heading": {
+          "sourceType": "static:field_item:string",
+          "expression": "\u2139\ufe0estring\u241fvalue"
+        },
+        "cta1href": {
+          "sourceType": "static:field_item:link",
+          "value": {
+            "uri": "https:\/\/example.com",
+            "options": []
+          },
+          "expression": "\u2139\ufe0elink\u241furi",
+          "sourceTypeSettings": {
+            "instance": {
+              "title": 0
+            }
+          }
+        },
+        "subheading": {
+          "sourceType": "static:field_item:string",
+          "expression": "\u2139\ufe0estring\u241fvalue"
+        }
+      },
+      "resolved": {
+        "cta1": "Adopt now",
+        "cta2": "Book a visit",
+        "heading": "Meet Bobby!",
+        "cta1href": "https:\/\/example.com",
+        "subheading": "Bobby is a good boy with a wicked hairdo. This mane is sure to delight."
+      }
+    },</code></pre>
+
+---
+
+### Undo redo
+
+<pre><code data-line-numbers="3-6|7|8-9">{
+  "layoutModel": {
+    "past": [
+        { "layout": [...], "model": {}, initialized: true },
+        { "layout": [...], "model": {}, initialized: true },
+    ],
+    "present": { "layout": [...], "model": {...}, initialized: true }, 
+    "future": [
+        { "layout": [...], "model": {...}, initialized: true },
+    ],
+}
+</code></pre>
+
+Note:
+
+- For page data and the model we make use of undo/redo which means we have a 'present' state but also multiple past and future states
 
 ---
 
@@ -328,6 +437,7 @@ Note:
 - This started life as the JSX theme engine on Drupal.org
 - Ended up in XB as 'semicoupled theme'
 - It is the magic sauce
+- This is a session all about it from Benjamin Mullins at Drupalcon Portland
 
 ---
 
@@ -397,8 +507,6 @@ Note:
 
 ## Is this madness?
 
-[Jurassic park Jeff Goldblum meme]
-
 Note:
 
 - It is working well
@@ -409,16 +517,55 @@ Note:
 
 ---
 
-## But I use<br>{paragraphs|layout builder}
+### But I use<br><em>paragraphs</em> or <em>layout builder</em>
 
-What happens to legacy sites?
+What happens to existing sites?
 
-<img class="fragment fade-in" src="./images/image57.png" alt="upgrade screeny"/>
+---
+
+### The XB Data model 
+
+<div class="box-with-points tall">
+<div class="box fragment">
+<h4>Data model</h4>
+<strong class="split">Model</strong>
+<strong>Slots</strong>
+</div>
+<div class="box fragment">
+<h4>SDC</h4>
+<strong class="split">Props</strong>
+<strong>Slots</strong>
+</div>
+<div class="box fragment">
+<h4>LB - layouts</h4>
+<strong class="split">Config</strong>
+<strong>Regions</strong>
+</div>
+<div class="box fragment">
+<h4>LB - blocks</h4>
+<strong class="split">Fields</strong>
+<strong>❌</strong>
+</div>
+<div class="box fragment">
+<h4>Paragraphs</h4>
+<strong class="split">Fields</strong>
+<strong>Nesting</strong>
+</div>
+</div>
 
 Note:
 
 - LB is a subset of the model
 - So is paragraphs
+
+---
+
+## In place upgrades
+
+<img src="./images/image57.png" alt="upgrade screeny"/><br>
+*Not yet implemented
+
+Note:
 - We have plans for an upgrade in place approach - chat to me after the session
 
 ---

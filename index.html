@@ -26,6 +26,11 @@
       --pnx-light-blue-part-opaque: #c8f1ffdd;
       --pnx-link: #0270b9;
       --pnx-link-hover: #161b59;
+      --box-radius: 15px;
+      --box-border-width: 3px;
+      --box-width: 225px;
+      --box-width-narrow: 200px;
+
     }
     .cross {
       color: red;
@@ -53,6 +58,63 @@
     }
     .check {
       color: green;
+    }
+    .remove {
+      position: absolute;
+      text-align: center;
+      width: 100%;
+    }
+    .check {
+      color: green;
+    }
+
+    .box-with-points {
+      display: flex;
+      flex-direction: row;
+    }
+
+    .tall {
+      margin-top: 6rem;
+    }
+
+    .tall .box {
+      justify-content: flex-start;
+      width: var(--box-width-narrow);
+      flex-grow: 0;
+      padding: 2rem 1rem;
+    }
+
+    .points {
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+    }
+
+    .box {
+      border-radius: var(--box-radius);
+      border: var(--box-border-width) solid var(--pnx-dark-blue);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--pnx-dark-blue);
+      width: var(--box-width);
+      flex-direction: column;
+      padding: 2rem;
+      background-color: var(--pnx-light-blue);
+      margin-right: 3rem;
+    }
+    .box h4 {
+      font-size: 1.7rem;
+    }
+    .box .split {
+      margin-top: auto;
+    }
+    .box strong {
+      align-self: baseline;
+    }
+    .box p {
+      font-size: 1.75rem;
+      margin: .25rem 0;
     }
 
     body {
